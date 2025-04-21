@@ -25,7 +25,7 @@ const nextConfig = {
         PINTEREST_LINK: "https://pin.it/3ugc4RgFM",
         WEBSITE_NAME: "14 Sercegiller",
         WEBSITE_DASHBOARD_URL: process.env.NODE_ENV === "development" ? "http://localhost:3001" : "https://dashboard.sercegiller.com",
-        MAIN_COLOR_ONE: "#1b405a"
+        MAIN_COLOR_ONE: "#623a43"
     },
     async headers() {
         return [
