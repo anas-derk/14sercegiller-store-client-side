@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 import LoaderPage from "@/components/LoaderPage";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
 import { countries, getCountryCode } from 'countries-list';
-import { FaCcPaypal, FaTape } from "react-icons/fa";
+import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
 import { parsePhoneNumber } from "libphonenumber-js";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
@@ -59,7 +58,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
 
     const [couponCode, setCouponCode] = useState("");
 
-    const [paymentGateway, setPaymentGateway] = useState("tap");
+    const [paymentGateway, setPaymentGateway] = useState("paypal");
 
     const [shippingMethod, setShippingMethod] = useState({ forLocalProducts: "ubuyblues", forInternationalProducts: "normal" });
 
@@ -70,8 +69,6 @@ export default function Checkout({ countryAsProperty, storeId }) {
     const [totalAmount, setTotalAmount] = useState(0);
 
     const [isWaitApplyCoupon, setIsWaitApplyCoupon] = useState(false);
-
-    const [isWaitApproveOnPayPalOrder, setIsWaitApproveOnPayPalOrder] = useState(false);
 
     const [isWaitCreateNewOrder, setIsWaitCreateNewOrder] = useState(false);
 
@@ -98,7 +95,8 @@ export default function Checkout({ countryAsProperty, storeId }) {
         setIsLoadingPage(true);
         getUSDPriceAgainstCurrency(countryAsProperty).then((price) => {
             setUsdPriceAgainstCurrency(price);
-            setCurrencyNameByCountry(getCurrencyNameByCountry(countryAsProperty));
+            const selectedCountry = localStorage.getItem(process.env.SELECTED_COUNTRY_BY_USER);
+            setCurrencyNameByCountry(getCurrencyNameByCountry(countryAsProperty === selectedCountry ? countryAsProperty : (selectedCountry ?? countryAsProperty ) ));
             if (!isGetUserInfo && !isGetStoreDetails) {
                 setIsLoadingPage(false);
             }
@@ -605,10 +603,6 @@ export default function Checkout({ countryAsProperty, storeId }) {
                 <title>{t(process.env.STORE_NAME)} - {t("Checkout")}</title>
             </Head>
             {!isLoadingPage && !errorMsgOnLoadingThePage && <>
-                {isWaitApproveOnPayPalOrder && <div className="overlay text-white d-flex flex-column align-items-center justify-content-center">
-                    <span class="loader mb-4"></span>
-                    <p>{t("Please Wait")} ...</p>
-                </div>}
                 <Header />
                 <div className="page-content pt-5">
                     <div className="container-fluid text-white p-4">
@@ -1120,22 +1114,25 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                         {/* Start Payement Methods Section */}
                                         <section className="payment-methods mb-4 border border-2 p-3 mb-4">
                                             <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Payment Methods")}</motion.h6>
-                                            <motion.div className={`row align-items-center pt-3 ${paymentGateway === "paypal" ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                            {["paypal", "stripe"].map((paymentMethod, paymentMethodIndex) => (
+                                                <motion.div key={paymentMethodIndex} className={`row align-items-center pt-3 ${paymentGateway === paymentMethod ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                                 <div className="col-md-6 text-start">
                                                     <input
                                                         type="radio"
-                                                        checked={paymentGateway === "paypal"}
-                                                        id="paypal-radio"
+                                                        checked={paymentGateway === paymentMethod}
+                                                        id={`${paymentMethod}-radio`}
                                                         className={`radio-input ${i18n.language !== "ar" ? "me-2" : "ms-2"}`}
                                                         name="radioGroup"
-                                                        onChange={() => setPaymentGateway("paypal")}
+                                                        onChange={() => setPaymentGateway(paymentMethod)}
                                                     />
-                                                    <label htmlFor="paypal-radio" onClick={() => setPaymentGateway("paypal")}>{t("PayPal")}</label>
+                                                    <label htmlFor={`${paymentMethod}-radio`} onClick={() => setPaymentGateway(paymentMethod)}>{t(paymentMethod)}</label>
                                                 </div>
                                                 <div className="col-md-6 text-md-end">
-                                                    <FaCcPaypal className="payment-icon paypal-icon" />
+                                                    {paymentMethod === "paypal" && <FaCcPaypal className={`payment-icon ${paymentMethod}-icon`} />}
+                                                    {paymentMethod === "stripe" && <FaCcStripe className={`payment-icon ${paymentMethod}-icon`} />}
                                                 </div>
                                             </motion.div>
+                                            ))}
                                         </section>
                                         {/* End Payement Methods Section */}
                                         <motion.div className={`form-check mb-4 border p-4 ${i18n.language !== "ar" ? "text-end" : "text-end"}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
@@ -1150,7 +1147,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                             </label>
                                         </motion.div>
                                         {formValidationErrors.is_agree_on_terms_and_conditions && <FormFieldErrorBox errorMsg={t(formValidationErrors.is_agree_on_terms_and_conditions)} />}
-                                        {paymentGateway === "paypal" && !isWaitCreateNewOrder && <motion.button
+                                        {!isWaitCreateNewOrder && <motion.button
                                             className="checkout-link p-2 w-100 mx-auto d-block text-center fw-bold mt-3"
                                             onClick={createPaymentOrder}
                                             initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}
