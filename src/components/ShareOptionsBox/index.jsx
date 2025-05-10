@@ -1,5 +1,5 @@
 import { GrFormClose } from "react-icons/gr";
-import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, FacebookMessengerShareButton, FacebookMessengerIcon, TelegramShareButton, TelegramIcon } from "react-share";
+import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, TelegramShareButton, TelegramIcon } from "react-share";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { getAnimationSettings, getInitialStateForElementBeforeAnimation, handleSelectUserLanguage } from "../../../public/global_functions/popular";
@@ -33,11 +33,6 @@ export default function ShareOptionsBox({ setIsDisplayShareOptionsBox, sharingNa
                         <FacebookShareButton url={sharingURL} title={t(`Sharing Your Favorite ${sharingName} On ${process.env.WEBSITE_NAME}`)}>
                             <FacebookIcon size={35} round />
                         </FacebookShareButton>
-                    </div>
-                    <div className="col-md-3">
-                        <FacebookMessengerShareButton url={sharingURL} title={t(`Sharing Your Favorite ${sharingName} On ${process.env.WEBSITE_NAME}`)}>
-                            <FacebookMessengerIcon size={35} round />
-                        </FacebookMessengerShareButton>
                     </div>
                     <div className="col-md-3">
                         <TelegramShareButton url={sharingURL} title={t(`Sharing Your Favorite ${sharingName} On ${process.env.WEBSITE_NAME}`)}>
