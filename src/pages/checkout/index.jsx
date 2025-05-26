@@ -967,7 +967,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                     ></motion.textarea>
                                 </div>
                                 <div className="col-xl-6">
-                                    <section className="order-total border border-3 p-4 ps-md-5 pe-md-5 text-start" id="order-total">
+                                    <section className="order-total custom-frame p-4 ps-md-5 pe-md-5 text-start" id="order-total">
                                         <motion.h5 className="fw-bold mb-5 text-center" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Your Request")}</motion.h5>
                                         <motion.div className="row total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
@@ -1048,7 +1048,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                             </div>
                                         </motion.div>
                                         {/* Start Coupon Section */}
-                                        <section className="coupon mb-4 border border-2 p-3 mb-4">
+                                        <section className="coupon mb-4 custom-frame p-3 mb-4">
                                             <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Coupon")}</motion.h6>
                                             <motion.h6 className={`fw-bold mb-3 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Have a Coupon Code ?")}</motion.h6>
                                             <motion.input
@@ -1083,7 +1083,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                         </section>
                                         {/* End Coupon Section */}
                                         {/* Start Shipping Methods Section */}
-                                        <section className="shipping-methods mb-4 border border-2 p-3 mb-4">
+                                        <section className="shipping-methods mb-4 custom-frame p-3 mb-4">
                                             <motion.h6 className={`fw-bold mb-5 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Shipping Methods")}</motion.h6>
                                             {localAndInternationlProducts.local.length > 0 && <>
                                                 {localAndInternationlProducts.international.length > 0 && <>
@@ -1170,10 +1170,10 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                         </section>
                                         {/* End Shipping Methods Section */}
                                         {/* Start Payement Methods Section */}
-                                        <section className="payment-methods mb-4 border border-2 p-3 mb-4">
-                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Payment Methods")}</motion.h6>
+                                        <section className="payment-methods mb-4 custom-frame p-3 mb-4">
+                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Payment Methods")}</motion.h6>
                                             {paymentMethods.map((paymentMethod, paymentMethodIndex) => (
-                                                <motion.div key={paymentMethodIndex} className={`row align-items-center  custom-frame pt-3 pb-3 m-2 ${paymentGateway === paymentMethod.name ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                                <motion.div key={paymentMethodIndex} className={`row align-items-center custom-frame pt-3 pb-3 m-2 ${paymentGateway === paymentMethod.name ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                                     <div className={`col-md-6 ${i18n.language !== "ar" ? "text-start" : "text-end"}`}>
                                                         <input
                                                             type="radio"
@@ -1193,7 +1193,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                     {paymentMethod.cards.length > 0 && <>
                                                         <hr className="mt-2 mb-2" />
                                                         <div className="available-cards text-center">
-                                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Available Cards")}</motion.h6>
+                                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Available Cards")}</motion.h6>
                                                             {paymentMethod.cards.map((card) => card.icon)}
                                                         </div>
                                                     </>}
@@ -1201,7 +1201,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                             ))}
                                         </section>
                                         {/* End Payement Methods Section */}
-                                        <motion.div className={`form-check mb-4 border p-4 ${i18n.language !== "ar" ? "text-end" : "text-end"}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        <motion.div className={`form-check mb-4 custom-frame p-4 ${i18n.language !== "ar" ? "text-end" : "text-end"}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <input
                                                 className="form-check-input mt-0"
                                                 type="checkbox"
