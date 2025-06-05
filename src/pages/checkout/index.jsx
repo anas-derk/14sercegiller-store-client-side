@@ -1055,16 +1055,16 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                             <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Shipping Notes")}</motion.h6>
                                             <ol className={`${i18n.language !== "ar" ? "text-start" : "text-end"}`}>
                                                 <li className="mb-4">
-                                                    <span className="fw-bold border-bottom p-2">{t("From 1 To 29.99")} {t("Euros")} :</span>
+                                                    <span className="fw-bold border-bottom p-2">{t("From 1 To 29.99")} {t("Turkish lira")} :</span>
                                                     <ul className="mt-4">
-                                                        <li className="mb-3">{t("Shipping Cost")} : 3.99 {t("Euros")} .</li>
+                                                        <li className="mb-3">{t("Shipping Cost")} : 3.99 {t("Turkish lira")} .</li>
                                                         <li>( 2 - 5 ) {t("Work Days")} .</li>
                                                     </ul>
                                                 </li>
                                                 <li className="mb-4">
-                                                    <span className="fw-bold border-bottom p-2">{t("From 30 Euros And Up")} :</span>
+                                                    <span className="fw-bold border-bottom p-2">{t("From 30 Turkish lira And Up")} :</span>
                                                     <ul className="mt-4">
-                                                        <li className="mb-3">{t("Shipping Cost")} : 0 {t("Euros")} .</li>
+                                                        <li className="mb-3">{t("Shipping Cost")} : 0 {t("Turkish lira")} .</li>
                                                         <li>( 2 - 5 ) {t("Work Days")} .</li>
                                                     </ul>
                                                 </li>
