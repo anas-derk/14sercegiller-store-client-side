@@ -5,18 +5,20 @@ import LoaderPage from "@/components/LoaderPage";
 import axios from "axios";
 import { useRouter } from "next/router";
 import ErrorOnLoadingThePage from "@/components/ErrorOnLoadingThePage";
-import { countries, getCountryCode } from 'countries-list';
-import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
+import { countries, getCountryCode } from "countries-list";
+import { FaCcMastercard, FaCcPaypal, FaCcStripe, FaGooglePay } from "react-icons/fa";
 import { parsePhoneNumber } from "libphonenumber-js";
 import { useTranslation } from "react-i18next";
 import Footer from "@/components/Footer";
 import NotFoundError from "@/components/NotFoundError";
-import { getStoreDetails, getProductQuantity, calcTotalPrices, getUserInfo, handleSelectUserLanguage, getAppearedSections, getInitialStateForElementBeforeAnimation, getAnimationSettings } from "../../../public/global_functions/popular";
+import { getStoreDetails, getProductQuantity, calcTotalPrices, getUserInfo, handleSelectUserLanguage, getInitialStateForElementBeforeAnimation, getAnimationSettings } from "../../../public/global_functions/popular";
 import { getCurrencyNameByCountry, getBaseCurrencyPriceAgainstCurrency } from "../../../public/global_functions/prices";
 import { inputValuesValidation } from "../../../public/global_functions/validations";
 import Link from "next/link";
 import { motion } from "motion/react";
 import FormFieldErrorBox from "@/components/FormFieldErrorBox";
+import { LiaCcVisa } from "react-icons/lia";
+import { SiAmericanexpress, SiApplepay } from "react-icons/si";
 
 export default function Checkout({ countryAsProperty, storeId }) {
 
@@ -59,7 +61,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
 
     const [paymentGateway, setPaymentGateway] = useState("paypal");
 
-    const [shippingMethod, setShippingMethod] = useState({ forLocalProducts: "ubuyblues", forInternationalProducts: "normal" });
+    const [shippingMethod, setShippingMethod] = useState({ forLocalProducts: "ciratco", forInternationalProducts: "ciratco" });
 
     const [localAndInternationlProducts, setLocalAndInternationlProducts] = useState({ local: [], international: [] });
 
@@ -88,32 +90,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
             cards: [],
         },
         {
-            name: "tap",
-            cards: [
-                {
-                    name: "Visa Card",
-                    icon: <LiaCcVisa className={`payment-icon visa-card-icon me-3`} />
-                },
-                {
-                    name: "Master Card",
-                    icon: <FaCcMastercard className={`payment-icon master-card-icon me-3`} />
-                },
-                {
-                    name: "Google Pay Card",
-                    icon: <FaGooglePay className={`payment-icon google-pay-card-icon me-3`} />
-                },
-                {
-                    name: "Apple Pay Card",
-                    icon: <SiApplepay className={`payment-icon apple-pay-card-icon me-3`} />
-                },
-                {
-                    name: "American Express Card",
-                    icon: <SiAmericanexpress className={`payment-icon apple-pay-card-icon me-3`} />
-                },
-            ],
-        },
-        {
-            name: "tabby",
+            name: "stripe",
             cards: [
                 {
                     name: "Visa Card",
@@ -225,7 +202,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                     firstName: "",
                     lastName: "",
                     companyName: "",
-                    country: "TR",
+                    country: "KW",
                     streetAddress: "",
                     apartmentNumber: "",
                     city: "",
@@ -237,7 +214,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                     firstName: "",
                     lastName: "",
                     companyName: "",
-                    country: "TR",
+                    country: "KW",
                     streetAddress: "",
                     apartmentNumber: "",
                     city: "",
@@ -288,17 +265,14 @@ export default function Checkout({ countryAsProperty, storeId }) {
     const getShippingCost = (localProductsLength, internationalProductsLength, shippingMethod, totalPriceAfterDiscount) => {
         let tempShippingCost = { forLocalProducts: 0, forInternationalProducts: 0 };
         if (localProductsLength !== 0) {
-            if (shippingMethod.forLocalProducts === "ubuyblues") {
-                tempShippingCost.forLocalProducts = 3;
+            if (pricesDetailsSummary.totalPriceAfterDiscount < 29.9) {
+                tempShippingCost.forLocalProducts = 3.99;
+            } else {
+                tempShippingCost.forLocalProducts = 0;
             }
         }
         if (internationalProductsLength !== 0) {
-            if (shippingMethod.forInternationalProducts === "normal") {
-                tempShippingCost.forInternationalProducts = totalPriceAfterDiscount * 0.15;
-            }
-            else {
-                tempShippingCost.forInternationalProducts = totalPriceAfterDiscount * 0.25;
-            }
+            tempShippingCost.forInternationalProducts = 0;
         }
         return tempShippingCost;
     }
@@ -647,11 +621,6 @@ export default function Checkout({ countryAsProperty, storeId }) {
                 }, 1500);
             }
         }
-    }
-
-    const handleSelectShippingMethod = (newShippingMethod) => {
-        setShippingMethod(newShippingMethod);
-        setShippingCost(getShippingCost(localAndInternationlProducts.local.length, localAndInternationlProducts.international.length, newShippingMethod, pricesDetailsSummary.totalPriceAfterDiscount));
     }
 
     return (
@@ -1006,7 +975,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                 {(pricesDetailsSummary.totalDiscount * convertedPrice).toFixed(2)} {t(currencyNameByCountry)}
                                             </div>
                                         </motion.div>
-                                        <motion.div className="row total-price-after-discount total pb-3 mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        <motion.div className="row total-price-after-discount total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
                                                 {t("Total Price After Discount")}
                                             </div>
@@ -1014,7 +983,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                 {(pricesDetailsSummary.totalPriceAfterDiscount * convertedPrice).toFixed(2)} {t(currencyNameByCountry)}
                                             </div>
                                         </motion.div>
-                                        {localAndInternationlProducts.local.length > 0 && <motion.div className="row shipping-cost-for-local-products total pb-3 mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        {localAndInternationlProducts.local.length > 0 && <motion.div className="row shipping-cost-for-local-products total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
                                                 {t(localAndInternationlProducts.international.length > 0 ? "Shipping Cost For Local Products" : "Shipping Cost")}
                                             </div>
@@ -1022,7 +991,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                 {(shippingCost.forLocalProducts * convertedPrice).toFixed(2)} {t("KWD")}
                                             </div>
                                         </motion.div>}
-                                        {localAndInternationlProducts.international.length > 0 && <motion.div className="row shipping-cost-for-international-products total pb-3 mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        {localAndInternationlProducts.international.length > 0 && <motion.div className="row shipping-cost-for-international-products total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
                                                 {t(localAndInternationlProducts.local.length > 0 ? "Shipping Cost For International Products" : "Shipping Cost")}
                                             </div>
@@ -1030,7 +999,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                 {(shippingCost.forInternationalProducts * convertedPrice).toFixed(2)} {t(currencyNameByCountry)}
                                             </div>
                                         </motion.div>}
-                                        {localAndInternationlProducts.local.length > 0 && localAndInternationlProducts.international.length > 0 && <motion.div className="row shipping-cost-for-products total pb-3 mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        {localAndInternationlProducts.local.length > 0 && localAndInternationlProducts.international.length > 0 && <motion.div className="row shipping-cost-for-products total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
                                                 {t("Shipping Cost")}
                                             </div>
@@ -1038,7 +1007,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                 {((shippingCost.forLocalProducts + shippingCost.forInternationalProducts) * convertedPrice).toFixed(2)} {t(currencyNameByCountry)}
                                             </div>
                                         </motion.div>}
-                                        <motion.div className="row total-price total pb-3 mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                        <motion.div className="row total-price total pb-3 mb-5" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                             <div className={`col-md-8 fw-bold p-0 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`}>
                                                 {t("Total Amount")}
                                             </div>
@@ -1048,7 +1017,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                         </motion.div>
                                         {/* Start Coupon Section */}
                                         <section className="coupon mb-4 custom-frame p-3 mb-4">
-                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Coupon")}</motion.h6>
+                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Coupon")}</motion.h6>
                                             <motion.h6 className={`fw-bold mb-3 ${i18n.language !== "ar" ? "text-md-start" : "text-md-end"}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Have a Coupon Code ?")}</motion.h6>
                                             <motion.input
                                                 type="text"
@@ -1081,98 +1050,33 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                             </motion.button>}
                                         </section>
                                         {/* End Coupon Section */}
-                                        {/* Start Shipping Methods Section */}
-                                        <section className="shipping-methods mb-4 custom-frame p-3 mb-4">
-                                            <motion.h6 className={`fw-bold mb-5 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Shipping Methods")}</motion.h6>
-                                            {localAndInternationlProducts.local.length > 0 && <>
-                                                {localAndInternationlProducts.international.length > 0 && <>
-                                                    <motion.h6 className="text-center mb-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("For Local Products")} ( {t("That Are Available Within The Country And Shipped Within The Same Country")} )</motion.h6>
-                                                    <motion.h6 className="text-center mb-3 fw-bold" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Product Names")} :</motion.h6>
-                                                    <ul className={`mb-5 border border-2 p-3`}>
-                                                        {localAndInternationlProducts.local.map((product, productIndex) => <motion.li key={productIndex} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{product} .</motion.li>)}
+                                        {/* Start Shipping Notes Section */}
+                                        <section className="shipping-notes mb-4 custom-frame p-3 mb-4">
+                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Shipping Notes")}</motion.h6>
+                                            <ol className={`${i18n.language !== "ar" ? "text-start" : "text-end"}`}>
+                                                <li className="mb-4">
+                                                    <span className="fw-bold border-bottom p-2">{t("From 1 To 29.99")} {t("Euros")} :</span>
+                                                    <ul className="mt-4">
+                                                        <li className="mb-3">{t("Shipping Cost")} : 3.99 {t("Euros")} .</li>
+                                                        <li>( 2 - 5 ) {t("Work Days")} .</li>
                                                     </ul>
-                                                </>}
-                                                <motion.div className={`row align-items-center mb-5`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
-                                                    <div className="col-md-6">
-                                                        <input
-                                                            type="radio"
-                                                            checked={shippingMethod.forLocalProducts === "normal"}
-                                                            id="local-normal-shipping-method-radio"
-                                                            className={`radio-input ${i18n.language !== "ar" ? "me-2" : "ms-2"}`}
-                                                            name="radioGroup1"
-                                                            onChange={() => handleSelectShippingMethod({ ...shippingMethod, forLocalProducts: "normal" })}
-                                                        />
-                                                        <label htmlFor="local-normal-shipping-method-radio" onClick={() => handleSelectShippingMethod({ ...shippingMethod, forLocalProducts: "normal" })}>{t("Normal")}</label>
-                                                    </div>
-                                                    <div className="col-md-6 text-md-end">
-                                                        <span className="p-3 border border-3">( 2 - 5 ) {t("Work Days")}</span>
-                                                    </div>
-                                                </motion.div>
-                                                <motion.div className={`row align-items-center pt-4 mb-5`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
-                                                    <div className="col-md-6">
-                                                        <input
-                                                            type="radio"
-                                                            checked={shippingMethod.forLocalProducts === "ubuyblues"}
-                                                            id="ubuyblues-shipping-method-radio"
-                                                            className={`radio-input ${i18n.language !== "ar" ? "me-2" : "ms-2"}`}
-                                                            name="radioGroup1"
-                                                            onChange={() => handleSelectShippingMethod({ ...shippingMethod, forLocalProducts: "ubuyblues" })}
-                                                        />
-                                                        <label htmlFor="ubuyblues-shipping-method-radio" onClick={() => handleSelectShippingMethod({ ...shippingMethod, forLocalProducts: "ubuyblues" })}>{t("Ubuyblues")}</label>
-                                                    </div>
-                                                    <div className="col-md-6 text-md-end">
-                                                        <span className="p-3 border border-3">( {(3 * convertedPrice).toFixed(2)} {t(currencyNameByCountry)} )</span>
-                                                    </div>
-                                                </motion.div>
-                                            </>}
-                                            {localAndInternationlProducts.international.length > 0 && <>
-                                                {localAndInternationlProducts.local.length > 0 && <>
-                                                    <motion.h6 className="text-center mb-4 border-top pt-4" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("For International Products")} ( {t("That Are Available Within One Country And Shipped To Another Country")} ) :</motion.h6>
-                                                    <motion.h6 className="text-center mb-3 fw-bold" initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Product Names")} :</motion.h6>
-                                                    <ul className={`mb-5 border border-2 p-3`}>
-                                                        {localAndInternationlProducts.international.map((product, productIndex) => <motion.li key={productIndex} className={`${productIndex !== localAndInternationlProducts.international.length - 1 ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{product} .</motion.li>)}
+                                                </li>
+                                                <li className="mb-4">
+                                                    <span className="fw-bold border-bottom p-2">{t("From 30 Euros And Up")} :</span>
+                                                    <ul className="mt-4">
+                                                        <li className="mb-3">{t("Shipping Cost")} : 0 {t("Euros")} .</li>
+                                                        <li>( 2 - 5 ) {t("Work Days")} .</li>
                                                     </ul>
-                                                </>}
-                                                <motion.div className={`row align-items-center pt-4 mb-5`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
-                                                    <div className="col-md-6">
-                                                        <input
-                                                            type="radio"
-                                                            checked={shippingMethod.forInternationalProducts === "normal"}
-                                                            id="international-normal-shipping-method-radio"
-                                                            className={`radio-input ${i18n.language !== "ar" ? "me-2" : "ms-2"}`}
-                                                            name="radioGroup2"
-                                                            onChange={() => handleSelectShippingMethod({ ...shippingMethod, forInternationalProducts: "normal" })}
-                                                        />
-                                                        <label htmlFor="normal-shipping-method-radio" onClick={() => handleSelectShippingMethod({ ...shippingMethod, forInternationalProducts: "normal" })}>{t("Normal")}</label>
-                                                    </div>
-                                                    <div className="col-md-6 text-md-end">
-                                                        <span className="p-3 border border-3">( 10 - 15 ) {t("Work Days")}</span>
-                                                    </div>
-                                                </motion.div>
-                                                <motion.div className={`row align-items-center pt-4 mb-5`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
-                                                    <div className="col-md-6">
-                                                        <input
-                                                            type="radio"
-                                                            checked={shippingMethod.forInternationalProducts === "fast"}
-                                                            id="international-fast-shipping-method-radio"
-                                                            className={`radio-input ${i18n.language !== "ar" ? "me-2" : "ms-2"}`}
-                                                            name="radioGroup2"
-                                                            onChange={() => handleSelectShippingMethod({ ...shippingMethod, forInternationalProducts: "fast" })}
-                                                        />
-                                                        <label htmlFor="international-fast-shipping-method-radio" onClick={() => handleSelectShippingMethod({ ...shippingMethod, forInternationalProducts: "fast" })}>{t("Fast")}</label>
-                                                    </div>
-                                                    <div className="col-md-6 text-md-end">
-                                                        <span className="p-3 border border-3">( 6 - 9 ) {t("Work Days")}</span>
-                                                    </div>
-                                                </motion.div>
-                                            </>}
+                                                </li>
+                                                <li className="fw-bold border-bottom p-2">{t("Orders Placed Before 1:00 PM (13:00) Will Be Shipped The Same Day")}</li>
+                                            </ol>
                                         </section>
-                                        {/* End Shipping Methods Section */}
+                                        {/* End Shipping Notes Section */}
                                         {/* Start Payement Methods Section */}
                                         <section className="payment-methods mb-4 custom-frame p-3 mb-4">
                                             <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Payment Methods")}</motion.h6>
                                             {paymentMethods.map((paymentMethod, paymentMethodIndex) => (
-                                                <motion.div key={paymentMethodIndex} className={`row align-items-center custom-frame pt-3 pb-3 m-2 ${paymentGateway === paymentMethod.name ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
+                                                <motion.div key={paymentMethodIndex} className={`row align-items-center  custom-frame pt-3 pb-3 m-2 ${paymentGateway === paymentMethod.name ? "mb-3" : ""}`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>
                                                     <div className={`col-md-6 ${i18n.language !== "ar" ? "text-start" : "text-end"}`}>
                                                         <input
                                                             type="radio"
@@ -1185,14 +1089,13 @@ export default function Checkout({ countryAsProperty, storeId }) {
                                                         <label htmlFor={`${paymentMethod.name}-radio`} onClick={() => setPaymentGateway(paymentMethod.name)}>{t(paymentMethod.name)}</label>
                                                     </div>
                                                     <div className={`col-md-6 ${i18n.language !== "ar" ? "text-end" : "text-start"}`}>
-                                                        {paymentMethod === "paypal" && <FaCcPaypal className={`payment-icon ${paymentMethod.name}-icon`} />}
-                                                        {paymentMethod === "tap" && <FaTape className={`payment-icon ${paymentMethod.name}-icon`} />}
-                                                        {paymentMethod === "tabby" && <FaTape className={`payment-icon ${paymentMethod.name}-icon`} />}
+                                                        {paymentMethod.name === "paypal" && <FaCcPaypal className={`payment-icon ${paymentMethod.name}-icon`} />}
+                                                        {paymentMethod.name === "stripe" && <FaCcStripe className={`payment-icon ${paymentMethod.name}-icon`} />}
                                                     </div>
                                                     {paymentMethod.cards.length > 0 && <>
                                                         <hr className="mt-2 mb-2" />
                                                         <div className="available-cards text-center">
-                                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3 custom-frame`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Available Cards")}</motion.h6>
+                                                            <motion.h6 className={`fw-bold mb-4 text-center bg-white text-dark p-3`} initial={getInitialStateForElementBeforeAnimation()} whileInView={getAnimationSettings}>{t("Available Cards")}</motion.h6>
                                                             {paymentMethod.cards.map((card) => card.icon)}
                                                         </div>
                                                     </>}

@@ -197,7 +197,7 @@
     "Facebook": "Facebook",
     "We offer high-quality products to our customers. We are committed to meeting your needs and providing the best solutions to ensure your satisfaction .": "Bietet unseren Kunden hochwertige Produkte an. Wir verpflichten uns, Ihre Bedürfnisse zu erfüllen und die besten Lösungen für Ihre Zufriedenheit bereitzustellen",
     "You have only one day from the delivery date to request a return and refund with the invoice for the following products and valuable goods": "Sie haben nur einen Tag ab Lieferdatum Zeit, um eine Rücksendung und Rückerstattung mit der Rechnung für die folgenden Produkte und wertvollen Waren zu beantragen",
-    "Jewelry and / pierced earrings":  "Schmuck und / Durchbohrte ohrringe",
+    "Jewelry and / pierced earrings": "Schmuck und / Durchbohrte ohrringe",
     "Watches": "Uhren",
     "Evening wear, wedding attire, socks, and swimwear": "Abendkleidung, Hochzeitskleidung, Socken und Badebekleidung",
     "Glasses": "Brillen",
@@ -630,5 +630,11 @@
     "Confirm Delete All": "Löschen aller bestätigen",
     "Delete All Favorite Products": "Alle Lieblingsprodukte löschen",
     "Delete All Wallet Products": "Alle Wallet-Produkte löschen",
-    "Wallet Products": "Wallet-Produkte"
+    "Wallet Products": "Wallet-Produkte",
+    "Shipping Notes": "Versandhinweise",
+    "From 1 To 29.99": "Von 1 bis 29,99",
+    "Euros": "Euro",
+    "From 30 Euros And Up": "Ab 30 Euro und mehr",
+    "Orders Placed Before 1:00 PM (13:00) Will Be Shipped The Same Day": "Bestellungen, die vor 13:00 Uhr aufgegeben werden, werden am selben Tag versendet",
+    "Available Cards": "Verfügbare Karten"
 }

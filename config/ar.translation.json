@@ -490,7 +490,7 @@
     "The pay with Binance option is only available on desktop currently": "خيار الدفع باستخدام Binance متاح حاليًا فقط على سطح المكتب",
     "During the Payment section of checkout select, the Binance option then proceed to pay with Binance": "خلال قسم الدفع في صفحة الخروج، اختر خيار Binance ثم تابع الدفع باستخدام Binance",
     "Begin payment and select your wallet Binance": "ابدأ الدفع واختر محفظتك Binance",
-    "Select your USDT currency":  "اختر عملة ال USDT الخاصة بك",
+    "Select your USDT currency": "اختر عملة ال USDT الخاصة بك",
     "Once you’re ready to pay either": "بمجرد أن تكون جاهزًا للدفع",
     "scan the QR code within your mobile Binance app or Select Pay in Wallet": "امسح رمز الاستجابة السريعة داخل تطبيق Binance على هاتفك المحمول أو اختر الدفع في المحفظة",
     "All returns follow our return policy": "جميع المرتجعات تتبع سياسة الإرجاع الخاصة بنا",
@@ -639,5 +639,11 @@
     "Confirm Delete All": "تأكيد حذف الكل",
     "Delete All Favorite Products": "حذف كل المنتجات المفضلة",
     "Delete All Wallet Products": "حذف كل منتجات المحفظة",
-    "Wallet Products": "منتجات المحفظة"
+    "Wallet Products": "منتجات المحفظة",
+    "Shipping Notes": "ملاحظات الشحن",
+    "From 1 To 29.99": "من 1 إلى 29.99",
+    "Euros": "يورو",
+    "From 30 Euros And Up": "من 30 يورو وأعلى",
+    "Orders Placed Before 1:00 PM (13:00) Will Be Shipped The Same Day": "الطلبات التي يتم إجراؤها قبل الساعة 1:00 ظهرًا (13:00) سيتم شحنها في نفس اليوم",
+    "Available Cards": "البطاقات المتاحة"
 }
