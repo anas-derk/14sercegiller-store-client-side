@@ -61,7 +61,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
 
     const [paymentGateway, setPaymentGateway] = useState("paypal");
 
-    const [shippingMethod, setShippingMethod] = useState({ forLocalProducts: "ciratco", forInternationalProducts: "ciratco" });
+    const [shippingMethod, setShippingMethod] = useState({ forLocalProducts: "sercegiller", forInternationalProducts: "sercegiller" });
 
     const [localAndInternationlProducts, setLocalAndInternationlProducts] = useState({ local: [], international: [] });
 
@@ -596,7 +596,7 @@ export default function Checkout({ countryAsProperty, storeId }) {
                     }
                 } : {})).data;
                 if (!result.error) {
-                    await router.push(result.data.paymentURL);
+                    await router.push(`/confirmation/${result.data._id}?country=${countryAsProperty}`);
                 } else {
                     setIsWaitCreateNewOrder(false);
                     setErrorMsg(result.msg);
