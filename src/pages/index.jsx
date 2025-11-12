@@ -133,12 +133,12 @@ export default function Home({ countryAsProperty, storeId }) {
 
     const [sortDetails, setSortDetails] = useState({
         forFlashProducts: {
-            by: "",
-            type: 1,
+            by: "postOfDate",
+            type: -1,
         },
         forProducts: {
-            by: "",
-            type: 1,
+            by: "postOfDate",
+            type: -1,
         },
     });
 
@@ -240,7 +240,7 @@ export default function Home({ countryAsProperty, storeId }) {
                     setTotalPagesCount(totalPagesCountTemp);
                     setIsGetCategories(false);
                     // =============================================================================
-                    const { flashProductsCount, flashProductsData, currentDateTemp } = await handleGetFlashProducts(filtersAsString);
+                    const { flashProductsCount, flashProductsData, currentDateTemp } = await handleGetFlashProducts(filtersAsString, getSortDetailsAsQuery(sortDetails.forFlashProducts));
                     setCurrentDate(currentDateTemp);
                     setAllFlashProductsInsideThePage(flashProductsData);
                     totalPagesCountTemp.forFlashProducts = Math.ceil(flashProductsCount / pageSizes.forFlashProducts);
@@ -250,7 +250,7 @@ export default function Home({ countryAsProperty, storeId }) {
                     }
                     setIsGetFlashProducts(false);
                     // =============================================================================
-                    const { productsCount, productsData } = await handleGetProducts(filtersAsString);
+                    const { productsCount, productsData } = await handleGetProducts(filtersAsString, getSortDetailsAsQuery(sortDetails.forProducts));
                     setAllProductsInsideThePage(productsData);
                     totalPagesCountTemp.forProducts = Math.ceil(productsCount / pageSizes.forProducts);
                     setTotalPagesCount(totalPagesCountTemp);
@@ -456,8 +456,9 @@ export default function Home({ countryAsProperty, storeId }) {
             else if (section === "products") {
                 setIsGetProducts(true);
                 const newCurrentPage = currentPage.forProducts - 1;
-                setAllProductsInsideThePage((await getAllProductsInsideThePage(newCurrentPage, pageSizes.forProducts, getFiltersAsQuery(filters), getSortDetailsAsQuery(sortDetails))).data.products);
-                setCurrentPage({ ...currentPage, forProducts: newCurrentPage });
+                const tempFilters = { ...filters.forProducts, storeId: filters.storeId, status: filters.status, parent: filters.parent };
+                const tempSortDetails = { ...sortDetails.forProducts };
+                setAllProductsInsideThePage((await getAllProductsInsideThePage(newCurrentPage, pageSizes.forProducts, getFiltersAsQuery(tempFilters), getSortDetailsAsQuery(tempSortDetails))).data.products); setCurrentPage({ ...currentPage, forProducts: newCurrentPage });
                 setIsGetProducts(false);
             }
             else {
@@ -485,7 +486,9 @@ export default function Home({ countryAsProperty, storeId }) {
             else if (section === "products") {
                 setIsGetProducts(true);
                 const newCurrentPage = currentPage.forProducts + 1;
-                setAllProductsInsideThePage((await getAllProductsInsideThePage(newCurrentPage, pageSizes.forProducts, getFiltersAsQuery(filters), getSortDetailsAsQuery(sortDetails))).data.products);
+                const tempFilters = { ...filters.forProducts, storeId: filters.storeId, status: filters.status, parent: filters.parent };
+                const tempSortDetails = { ...sortDetails.forProducts };
+                setAllProductsInsideThePage((await getAllProductsInsideThePage(newCurrentPage, pageSizes.forProducts, getFiltersAsQuery(tempFilters), getSortDetailsAsQuery(tempSortDetails))).data.products);
                 setCurrentPage({ ...currentPage, forProducts: newCurrentPage });
                 setIsGetProducts(false);
             }
@@ -512,7 +515,9 @@ export default function Home({ countryAsProperty, storeId }) {
             }
             else if (section === "products") {
                 setIsGetProducts(true);
-                setAllProductsInsideThePage((await getAllProductsInsideThePage(pageNumber, pageSizes.forProducts, getFiltersAsQuery(filters), getSortDetailsAsQuery(sortDetails))).data.products);
+                const tempFilters = { ...filters.forProducts, storeId: filters.storeId, status: filters.status, parent: filters.parent };
+                const tempSortDetails = { ...sortDetails.forProducts };
+                setAllProductsInsideThePage((await getAllProductsInsideThePage(pageNumber, pageSizes.forProducts, getFiltersAsQuery(tempFilters), getSortDetailsAsQuery(tempSortDetails))).data.products);
                 setCurrentPage({ ...currentPage, forProducts: pageNumber });
                 setIsGetProducts(false);
             }
@@ -888,8 +893,8 @@ export default function Home({ countryAsProperty, storeId }) {
                                                     onChange={(e) => handleChangeSorts(e, "flash-products")}
                                                 >
                                                     <option value="" hidden>{t("Sort By")}</option>
-                                                    <option value="postOfDate,1">{t("From Latest To Oldest")}</option>
-                                                    <option value="postOfDate,-1">{t("From Oldest To Latest")}</option>
+                                                    <option value="postOfDate,-1">{t("From Latest To Oldest")}</option>
+                                                    <option value="postOfDate,1">{t("From Oldest To Latest")}</option>
                                                     <option value="price,-1">{t("From Highest Price To Lowest")}</option>
                                                     <option value="price,1">{t("From Lowest Price To Highest")}</option>
                                                 </select>
@@ -978,8 +983,8 @@ export default function Home({ countryAsProperty, storeId }) {
                                                     onChange={(e) => handleChangeSorts(e, "products")}
                                                 >
                                                     <option value="" hidden>{t("Sort By")}</option>
-                                                    <option value="postOfDate,1">{t("From Latest To Oldest")}</option>
-                                                    <option value="postOfDate,-1">{t("From Oldest To Latest")}</option>
+                                                    <option value="postOfDate,-1">{t("From Latest To Oldest")}</option>
+                                                    <option value="postOfDate,1">{t("From Oldest To Latest")}</option>
                                                     <option value="price,-1">{t("From Highest Price To Lowest")}</option>
                                                     <option value="price,1">{t("From Lowest Price To Highest")}</option>
                                                 </select>
