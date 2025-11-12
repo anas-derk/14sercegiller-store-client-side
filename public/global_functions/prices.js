@@ -42,17 +42,14 @@ const getBaseCurrencyPriceAgainstCurrency = async (country) => {
             }
         }
         switch (country) {
-            case process.env.BASE_COUNTRY: {
-                return 1;
-            }
             case "kuwait": {
-                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=KWD&baseCurrencySymbol=${getCurrencyNameByCountry("turkey")}`)).data.data;
+                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=KWD&baseCurrencySymbol=${getCurrencyNameByCountry("United States Of America")}`)).data.data;
             }
             case "germany": {
-                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=EUR&baseCurrencySymbol=${getCurrencyNameByCountry("turkey")}`)).data.data;
+                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=EUR&baseCurrencySymbol=${getCurrencyNameByCountry("United States Of America")}`)).data.data;
             }
             case "turkey": {
-                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=TRY&baseCurrencySymbol=${getCurrencyNameByCountry("turkey")}`)).data.data;
+                return (await axios.get(`${process.env.BASE_API_URL}/currency-exchange-rates/currency-rate-agaist-base-currency?currencySymbol=TRY&baseCurrencySymbol=${getCurrencyNameByCountry("United States Of America")}`)).data.data;
             }
             default: {
                 throw Error("Sorry, Invalid Country !!");
