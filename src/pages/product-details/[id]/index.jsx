@@ -1025,7 +1025,7 @@ export async function getServerSideProps({ query, params }) {
                 destination: "/",
             },
             props: {
-                countryAsProperty: "kuwait",
+                countryAsProperty: "turkey",
             },
         }
     }
@@ -1038,7 +1038,7 @@ export async function getServerSideProps({ query, params }) {
                     destination: `/product-details/${params.id}`,
                 },
                 props: {
-                    countryAsProperty: "kuwait",
+                    countryAsProperty: "turkey",
                     productIdAsProperty: params.id,
                 },
             }
@@ -1064,7 +1064,7 @@ export async function getServerSideProps({ query, params }) {
     }
     return {
         props: {
-            countryAsProperty: "kuwait",
+            countryAsProperty: "turkey",
             productIdAsProperty: params.id,
         },
     }
